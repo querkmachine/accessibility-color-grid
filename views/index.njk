@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/static/styles.css">
+  <title>Contrast ratio color grid</title>
+</head>
+<body>
+
+  {%- macro _swatch(c1, c2) %}
+    {%- if c1 == c2 %}
+      <div class="placeholder"></div>
+    {%- else %}
+      {%- set grade = grade(c1, c2) %}
+      <div class="swatch" style="--c1: {{ c1 }}; --c2: {{ c2 }};">
+        <span class="swatch__sample" aria-hidden="true">Aa</span>
+        <div class="score">
+          <span class="score__grade score__grade--{{ grade }}">{{ grade }}</span>
+          <span class="score__ratio">{{ contastRatio(c1, c2) }}</span>
+        </div>
+      </div>
+    {%- endif %}
+  {%- endmacro %}
+
+  <main>
+
+    <h1>Contrast ratio color grid</h1>
+    <p>Compare every colour in your palette against every other colour to see which combinations meet the Web Content Accessibility Guidelines' minimum contrast ratios.</p>
+
+    <form action="/" method="post">
+      <label for="colors">Color hex codes</label>
+      <div id="colors-hint">One color per line.</div>
+      <textarea id="colors" name="colors" rows="10" aria-describedby="colors-hint">{{- colors.join("\n") -}}</textarea>
+      <button type="submit">Go</button>
+    </form>
+
+    <dl class="index">
+      <dt>
+        <div class="score">
+          <span class="score__grade score__grade--AAA">AAA</span>
+          <span class="score__ratio">7.00</span>
+        </div>
+      </dt>
+      <dd>Sufficient contrast for text at WCAG Level AAA.</dd>
+      <dt>
+        <div class="score">
+          <span class="score__grade score__grade--AA">AA</span>
+          <span class="score__ratio">4.50</span>
+        </div>
+      </dt>
+      <dd>Sufficient contrast for text at WCAG Level AA, and UI elements at Level AAA.</dd>
+      <dt>
+        <div class="score">
+          <span class="score__grade score__grade--AAL">AAL</span>
+          <span class="score__ratio">3.00</span>
+        </div>
+      </dt>
+      <dd>Sufficient contrast for <strong>large</strong> text and UI elements at WCAG Level AA.</dd>
+      <dt>
+        <div class="score">
+          <span class="score__grade score__grade--Fail">Fail</span>
+          <span class="score__ratio">&lt;3.00</span>
+        </div>
+      </dt>
+      <dd>Doesn't meet minimum contrast. Only suitable for disabled UI elements and presentational (non-content) elements.</dd>
+    </dl>
+
+    {%- if colors | length > 0 %}
+      <table class="grid">
+        <thead>
+          <tr>
+            <th></th>
+            {%- for c2 in colors %}
+              <th scope="col">
+                <div class="color-label" style="--c: {{ c2 }};">{{ c2 }}</div>
+              </th>
+            {%- endfor %}
+          </tr>
+        </thead>
+        <tbody>
+          {%- for c1 in colors %}
+            <tr>
+              <th scope="row">
+                <div class="color-label" style="--c: {{ c1 }};">{{ c1 }}</div>
+              </th>
+              {%- for c2 in colors %}
+                <td>
+                  {{ _swatch(c1, c2) }}
+                </td>
+              {%- endfor %}
+            </tr>
+          {%- endfor %}
+        </tbody>
+      </table>
+    {%- endif %}
+
+  </main>
+
+</body>
+</html>

@@ -1,0 +1,141 @@
+:root {
+  --page-background: #f8f8f8;
+  --text-color: #0d0d0d;
+  --border-color: var(--text-color);
+  --border-width: 1px;
+  --swatch-size: 7rem;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background-color: var(--page-background);
+  font-family: system-ui, Helvetica, Arial, sans-serif;
+}
+
+.grid {
+  table-layout: fixed;
+  border-collapse: collapse;
+}
+
+.grid :is(th, td) {
+  padding: 0;
+  border: var(--border-width) solid var(--border-color);
+}
+
+.grid thead :is(th, td),
+.grid tr :is(th, td):first-child {
+  position: sticky;
+  background-color: var(--page-background);
+}
+
+.grid thead :is(th, td) {
+  border-block-start: 0;
+  inset-block-start: 0;
+  z-index: 1;
+}
+
+.grid tr :is(th, td):first-child {
+  border-inline-start: 0;
+  inset-inline-start: 0;
+}
+
+.grid thead :is(th, td):first-child {
+  z-index: 2;
+}
+
+.color-label {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  inline-size: var(--swatch-size);
+  padding-block: 15px;
+  padding-inline: 5px;
+  border-width: 0;
+  border-block-start-width: 0.5rem;
+  border-style: solid;
+  border-color: var(--c);
+  font-variant-numeric: tabular-nums;
+}
+
+.grid tbody .color-label {
+  writing-mode: sideways-lr;
+}
+
+.placeholder,
+.swatch {
+  inline-size: var(--swatch-size);
+  block-size: var(--swatch-size);
+}
+
+.placeholder {
+  background-image: linear-gradient(
+    45deg,
+    transparent 50%,
+    var(--border-color) calc(50%),
+    transparent calc(50% + var(--border-width))
+  );
+}
+
+.swatch {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 5px;
+  background-color: var(--c1);
+}
+
+.swatch__sample {
+  color: var(--c2);
+  font-size: 2.5rem;
+}
+
+.score {
+  display: inline-flex;
+  border: var(--border-width) solid var(--border-color);
+  font-size: smaller;
+}
+
+.score__grade,
+.score__ratio {
+  padding-block: 0.15em;
+  padding-inline: 0.4em;
+}
+
+.score__grade {
+}
+
+.score__grade--AAA {
+  background-color: #77dd77;
+}
+.score__grade--AA {
+  background-color: #77dd77;
+}
+.score__grade--AAL {
+  background-color: #efde78;
+}
+.score__grade--Fail {
+  background-color: #de8978;
+}
+
+.score__ratio {
+  color: var(--page-background);
+  background-color: var(--text-color);
+  font-variant-numeric: tabular-nums;
+}
+
+.index {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: min-content 1fr;
+  margin-block-end: 2rem;
+}
+
+.index :is(dt, dd) {
+  margin: 0;
+  padding: 0;
+}
