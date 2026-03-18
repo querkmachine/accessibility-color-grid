@@ -41,6 +41,16 @@ const normaliseHexFormatting = function (colorArray, includeHashInOutput) {
   return colorArray;
 };
 
+const generateExampleColors = function () {
+  const output = [];
+
+  for (let i = 0; i < 10; i++) {
+    output.push(Math.random().toString(16).slice(2, 8));
+  }
+
+  return normaliseHexFormatting(output, true);
+};
+
 njkEnv.addGlobal("contastRatio", (c1, c2) => {
   return Intl.NumberFormat("en", {
     minimumFractionDigits: 2,
@@ -68,6 +78,8 @@ app.get("/", (req, res) => {
 
   if (req.query.colors) {
     colors = normaliseHexFormatting(req.query.colors.split(","), true);
+  } else {
+    colors = generateExampleColors();
   }
 
   res.render("index", { colors });

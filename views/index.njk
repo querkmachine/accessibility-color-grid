@@ -27,11 +27,10 @@
 
     <div class="app__sidebar">
       <h1 class="heading-l">Contrast ratio color grid</h1>
-      <p>Quickly compare every color in your palette against each other to see which combinations meet the Web Content Accessibility Guidelines (<abbr>WCAG</abbr>) minimum contrast ratios. <a class="link" href="/?colors=FFFFFF,F5F5F5,0FF10F,0BC148,252134,302750,7C56FC">For example.</a></p>
+      <p>Quickly compare every color in your palette against each other to see which combinations meet the Web Content Accessibility Guidelines (<abbr>WCAG</abbr>) minimum contrast ratios.</p>
       <form class="form" action="/" method="post">
-        <label class="form__label" for="colors">Color hex codes</label>
-        <div class="form__hint" id="colors-hint">One color per line.</div>
-        <textarea class="form__input" id="colors" name="colors" rows="10" aria-describedby="colors-hint">{{- colors.join("\n") -}}</textarea>
+        <label class="form__label" for="colors">Color hex codes, one per line</label>
+        <textarea class="form__input" id="colors" name="colors" cols="7" rows="10">{{- colors.join("\n") -}}</textarea>
         <button class="form__button" type="submit">Go</button>
       </form>
 
