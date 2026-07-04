@@ -77,18 +77,24 @@ app.get("/", (req, res) => {
   let colors = [];
 
   if (req.query.colors) {
-    colors = normaliseHexFormatting(req.query.colors.split(","), true);
+    colors = req.query.colors.split(",");
+  } else if (req.query.hash) {
+    colors = Buffer.from(req.query.hash, "base64").toString("utf8").split(",");
   } else {
     colors = generateExampleColors();
   }
+
+  colors = normaliseHexFormatting(colors, true);
 
   res.render("index", { colors });
 });
 
 app.post("/", (req, res) => {
   let colors = req.body.colors ? req.body.colors.split("\n") : [];
-  colors = normaliseHexFormatting(colors, false);
-  res.redirect(`/?colors=${colors.join(",")}`);
+  colors = normaliseHexFormatting(colors, false).join(",");
+
+  const hash = Buffer.from(colors, "utf8").toString("base64");
+  res.redirect(`/?hash=${hash}`);
 });
 
 app.listen(process.env.PORT, () => {
