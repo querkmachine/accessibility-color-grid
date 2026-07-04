@@ -12,7 +12,7 @@
   "license": "MIT",
   "type": "module",
   "dependencies": {
-    "dotenv": "^17.3.1",
+    "dotenv": "^17.4.2",
     "express": "^5.2.1",
     "nunjucks": "^3.2.4",
     "wcag-contrast": "^3.0.0"
