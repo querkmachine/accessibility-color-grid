@@ -1,4 +1,355 @@
 :root {
+  --color-canvas: oklch(92.9% 0.013 255.508);
+  --color-surface: oklch(98.4% 0.003 247.858);
+  --color-border: oklch(86.9% 0.022 252.894);
+  --color-text: oklch(12.9% 0.042 264.695);
+
+  /* General layout-y gubbins */
+  --app-gutter: 1.5rem;
+  --app-font-body: system-ui, Helvetica, Arial, sans-serif;
+  --app-font-header: Unbounded, var(--app-font-body);
+
+  /* Swatch grid */
+  --grid-border-width: 1px;
+  --grid-border-color: var(--color-border);
+
+  /* WCAG scores */
+  --score-background-color: oklch(27.9% 0.041 260.031);
+  --score-text-color: #fff;
+  --score-grade-text-colour: oklch(12.9% 0.042 264.695);
+  --score-border-width: 1px;
+  --score-border-color: var(--score-background-color);
+  --score-outline-color: var(--score-text-color);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
+/** 
+ * GENERIC STUFF
+ */
+
+h1 {
+  font-family: var(--app-font-header);
+  font-weight: 680;
+  line-height: 1.1;
+  text-wrap: balance;
+}
+
+h2 {
+  margin-block-start: 0;
+  font-family: var(--app-font-header);
+  font-weight: 600;
+  line-height: 1.25;
+}
+
+p {
+  max-inline-size: 42em;
+}
+
+/**
+ * APP LAYOUT
+ */
+
+.app {
+  background-color: var(--color-canvas);
+  font-family: var(--app-font-body);
+  text-size-adjust: 100%;
+  color-scheme: light dark;
+}
+
+.app__body {
+  margin: 0;
+  padding: 0;
+  color: var(--color-text);
+  background-color: transparent;
+  text-wrap: pretty;
+  line-height: 1.5;
+}
+
+.app__header {
+  grid-area: header;
+  margin-block-end: var(--app-gutter);
+  padding-inline: var(--app-gutter);
+}
+
+.app__sidebar {
+  grid-area: sidebar;
+  padding-block-end: var(--app-gutter);
+  padding-inline: var(--app-gutter);
+}
+
+.app__grid {
+  grid-area: grid;
+  container-type: inline-size;
+}
+
+@media (min-width: 60rem) {
+  .app__body {
+    display: grid;
+    grid-template-columns: 20rem 1fr;
+    grid-template-areas: "header header" "sidebar grid";
+  }
+}
+
+/**
+ * WCAG SCORE LABELS
+ */
+
+.score {
+  display: inline-flex;
+  border: var(--score-border-width) solid var(--score-border-color);
+  font-size: smaller;
+  outline: var(--score-border-width) solid var(--score-outline-color);
+}
+
+.score__grade,
+.score__ratio {
+  padding-block: 0.15em;
+  padding-inline: 0.4em;
+}
+
+.score__grade {
+  color: var(--score-grade-text-colour);
+}
+
+.score__grade--AAA {
+  background-color: #77dd77;
+}
+
+.score__grade--AA {
+  background-color: #77dd77;
+}
+
+.score__grade--AAL {
+  background-color: #efde78;
+}
+
+.score__grade--Fail {
+  background-color: #de8978;
+}
+
+.score__ratio {
+  color: var(--score-text-color);
+  background-color: var(--score-background-color);
+  font-variant-numeric: tabular-nums;
+}
+
+/**
+ * GRID - COLOR LABELS 
+ */
+
+.color-label {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  inline-size: var(--grid-swatch-size);
+  padding-block: 1rem;
+  padding-inline: 0.5rem;
+  border-width: 0;
+  border-block-start-width: 0.5rem;
+  border-style: solid;
+  border-color: var(--c);
+  font-variant-numeric: tabular-nums;
+}
+
+/**
+ * GRID - SWATCHES / PLACEHOLDERS
+ */
+
+.swatch,
+.placeholder {
+  inline-size: var(--grid-swatch-size);
+  block-size: var(--grid-swatch-size);
+}
+
+.swatch {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 0.5rem;
+  background-color: var(--c1);
+}
+
+.swatch__sample {
+  color: var(--c2);
+  font-size: 2.5rem;
+  line-height: 1;
+}
+
+.placeholder,
+.grid thead td:first-child {
+  background-color: var(--color-surface);
+  background-image: linear-gradient(
+    45deg,
+    transparent 50%,
+    var(--grid-border-color) calc(50%),
+    transparent calc(50% + var(--grid-border-width))
+  );
+}
+
+/**
+ * GRID - LAYOUT
+ */
+
+.grid {
+  --grid-swatch-size: 6rem;
+
+  overflow: auto;
+  border: 0 solid var(--color-border);
+  border-block-start-width: 1px;
+  background-color: var(--color-surface);
+}
+
+@media (min-width: 60rem) {
+  .grid {
+    max-block-size: 100vh;
+    position: sticky;
+    inset-block-start: 0;
+    border-inline-start-width: 1px;
+  }
+}
+
+@container (min-width: 50rem) {
+  .grid {
+    --grid-swatch-size: 7rem;
+  }
+}
+
+.grid table {
+  table-layout: fixed;
+}
+
+.grid :is(th, td) {
+  padding: 0;
+  border: 1px solid var(--grid-border-color);
+}
+
+.grid thead :is(th, td),
+.grid tbody :is(th, td):first-child {
+  position: sticky;
+  background-color: var(--color-canvas);
+}
+
+.grid thead :is(th, td) {
+  border-block-start: 0;
+  inset-block-start: 0;
+  z-index: 1;
+}
+
+.grid tr :is(th, td):first-child {
+  border-inline-start: 0;
+  inset-inline-start: 0;
+}
+
+.grid thead :is(th, td):first-child {
+  z-index: 2;
+}
+
+/* Rotate color labels at the start of rows */
+/* NOTE: This is bugged in WebKit, open issue is here: 
+    https://bugs.webkit.org/show_bug.cgi?id=313826 */
+.grid tbody .color-label {
+  writing-mode: sideways-lr;
+}
+
+/** 
+ * SIDEBAR - CARDS
+ */
+
+.card {
+  padding: calc(var(--app-gutter) * 0.666);
+  border: 1px solid var(--color-border);
+  background-color: var(--color-surface);
+}
+
+.card + .card {
+  margin-block-start: var(--app-gutter);
+}
+
+/**
+ * SIDEBAR - SCORE GUIDE
+ */
+
+.score-guide {
+  margin: 0;
+}
+
+.score-guide :is(dt, dd) {
+  margin: 0;
+  padding: 0;
+}
+
+.score-guide dt:not(:first-child) {
+  margin-block-start: 0.75rem;
+}
+
+.score-guide dd {
+  margin-block-start: 0.25rem;
+  font-size: smaller;
+}
+
+/**
+  * SIDEBAR - COLORS FORM 
+  */
+
+.form {
+}
+
+.form__label,
+.form__hint,
+.form__input {
+  margin-block-end: 0.25rem;
+}
+
+.form__label {
+  display: block;
+}
+
+.form__hint {
+  display: block;
+  font-size: smaller;
+}
+
+.form__input,
+.form__button {
+  font: inherit;
+  line-height: inherit;
+}
+
+.form__input {
+  inline-size: 100%;
+  min-block-size: 5lh;
+  max-block-size: 20lh;
+  padding: 0.5rem;
+  border: 1px solid var(--color-border);
+  color: var(--color-text);
+  background-color: transparent;
+  font-variant-numeric: tabular-nums;
+  resize: vertical;
+  field-sizing: content;
+}
+
+.form__button {
+  display: block;
+  inline-size: 100%;
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--color-text);
+  color: var(--color-canvas);
+  background-color: var(--color-text);
+  font-weight: bold;
+  cursor: pointer;
+}
+
+/* :root {
   --color-canvas: #fafafa;
   --color-surface: #fff;
   --color-furniture: #112;
@@ -265,20 +616,4 @@
   font-variant-numeric: tabular-nums;
 }
 
-.index {
-  margin-block-end: 2rem;
-}
-
-.index :is(dt, dd) {
-  margin: 0;
-  padding: 0;
-}
-
-.index dt:not(:first-child) {
-  margin-block-start: 0.75rem;
-}
-
-.index dd {
-  margin-block-start: 0.25rem;
-  font-size: smaller;
-}
+ */

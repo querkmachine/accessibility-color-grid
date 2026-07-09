@@ -17,25 +17,31 @@
 <html lang="en" class="app">
 <head>
   <meta charset="UTF-8">
-  <link rel="stylesheet" href="/static/styles.css">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@200..900&display=swap">
+  <link rel="stylesheet" href="/static/styles.css">
   <title>Contrast ratio color grid</title>
 </head>
 <body class="app__body">
 
-  <main class="app__main">
+  <header class="app__header">
+    <h1>Contrast ratio color grid</h1>
+    <p>Quickly compare every color in your palette against each other to see which combinations meet the Web Content Accessibility Guidelines (<abbr>WCAG</abbr>) minimum contrast ratios.</p>
+  </header>
 
-    <div class="app__sidebar">
-      <h1 class="heading-l">Contrast ratio color grid</h1>
-      <p>Quickly compare every color in your palette against each other to see which combinations meet the Web Content Accessibility Guidelines (<abbr>WCAG</abbr>) minimum contrast ratios.</p>
-      <form class="form" action="/" method="post">
-        <label class="form__label" for="colors">Color hex codes, one per line</label>
-        <textarea class="form__input" id="colors" name="colors" cols="7" rows="10">{{- colors.join("\n") -}}</textarea>
-        <button class="form__button" type="submit">Go</button>
-      </form>
+  <div class="app__sidebar">
+    <form class="card form" action="/" method="post">
+      <label class="form__label" for="colors"><h2>Color list</h2></label>
+      <div class="form__hint" id="colors-hint">Hex color codes, in 3 or 6 digit format. One per line.</div>
+      <textarea class="form__input" id="colors" aria-describedby="colors-hint" name="colors" cols="7" rows="10">{{- colors.join("\n") -}}</textarea>
+      <button class="form__button" type="submit">Compare colors</button>
+    </form>
 
-      <h2 class="heading-m">Scoring guide</h2>
-      <dl class="index">
+    <div class="card">
+      <h2>Scoring guide</h2>
+      <dl class="score-guide">
         <dt>
           <div class="score">
             <span class="score__grade score__grade--AAA">AAA</span>
@@ -66,13 +72,15 @@
         <dd>Doesn't meet minimum contrast. Only suitable for disabled UI elements and presentational (non-content) elements.</dd>
       </dl>
     </div>
+  </div>
 
-    <div class="app__wrapper">
-      {%- if colors | length > 0 %}
-        <table class="grid">
+  <div class="app__grid">
+    {%- if colors | length > 0 %}
+      <div class="grid">
+        <table>
           <thead>
             <tr>
-              <th></th>
+              <td></td>
               {%- for c2 in colors %}
                 <th scope="col">
                   <div class="color-label" style="--c: {{ c2 }};">{{ c2 }}</div>
@@ -95,10 +103,9 @@
             {%- endfor %}
           </tbody>
         </table>
-      {%- endif %}
-    </div>
-
-  </main>
+      </div>
+    {%- endif %}
+  </div>
 
 </body>
 </html>
