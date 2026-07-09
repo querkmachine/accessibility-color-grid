@@ -26,15 +26,15 @@
 </head>
 <body class="app__body">
 
-  <header class="app__header">
-    <h1>Contrast ratio color grid</h1>
-    <p>Quickly compare every color in your palette against each other to see which combinations meet the Web Content Accessibility Guidelines (<abbr>WCAG</abbr>) minimum contrast ratios.</p>
-  </header>
-
   <div class="app__sidebar">
+    <header>
+      <h1>Contrast ratio color grid</h1>
+      <p>Quickly compare every color in your palette against each other to see which combinations meet the Web Content Accessibility Guidelines (<abbr>WCAG</abbr>) minimum contrast ratios.</p>
+    </header>
+  
     <form class="card form" action="/" method="post">
       <label class="form__label" for="colors"><h2>Color list</h2></label>
-      <div class="form__hint" id="colors-hint">Hex color codes, in 3 or 6 digit format. One per line.</div>
+      <div class="form__hint" id="colors-hint">Hexadecimal color codes, in 3 or 6 digit format. One per line.</div>
       <textarea class="form__input" id="colors" aria-describedby="colors-hint" name="colors" cols="7" rows="10">{{- colors.join("\n") -}}</textarea>
       <button class="form__button" type="submit">Compare colors</button>
     </form>
