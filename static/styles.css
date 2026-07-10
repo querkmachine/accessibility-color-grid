@@ -65,6 +65,16 @@ p {
   max-inline-size: 42em;
 }
 
+a {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+}
+
+a:hover {
+  text-decoration-thickness: 2px;
+}
+
 /**
  * APP LAYOUT
  */
@@ -86,10 +96,14 @@ p {
   line-height: 1.5;
 }
 
-.app__sidebar {
-  grid-area: sidebar;
+.app__sidebar,
+.app__footer {
   padding-block-end: var(--app-gutter);
   padding-inline: var(--app-gutter);
+}
+
+.app__sidebar {
+  grid-area: sidebar;
 }
 
 .app__grid {
@@ -97,11 +111,37 @@ p {
   container-type: inline-size;
 }
 
+.app__footer {
+  grid-area: footer;
+  font-size: smaller;
+}
+
+.app__footer ul {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.app__footer li:not(:last-child)::after {
+  content: "·";
+  margin-inline: 0.25em;
+}
+
+.app__footer img {
+  inline-size: 1.25em;
+  block-size: 1.25em;
+  vertical-align: text-top;
+}
+
 @media (min-width: 60rem) {
   .app__body {
     display: grid;
     grid-template-columns: 20rem 1fr;
-    grid-template-areas: "header header" "sidebar grid";
+    grid-template-rows: 1fr auto;
+    grid-template-areas: "sidebar grid" "footer grid";
   }
 }
 
